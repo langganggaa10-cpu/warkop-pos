@@ -1,0 +1,104 @@
+import { prisma } from "@/lib/prisma";
+import { createMenu, updateMenu } from "./actions";
+
+export default async function MenuPage() {
+  const menus = await prisma.menu.findMany({
+    orderBy: {
+      id: "desc",
+    },
+  });
+
+  return (
+    <main className="p-10">
+      <h1 className="text-3xl font-bold mb-6">
+        Manajemen Menu
+      </h1>
+
+      {/* FORM TAMBAH MENU */}
+      <form
+        action={createMenu}
+        className="bg-white p-6 rounded shadow mb-8"
+      >
+        <div className="grid grid-cols-4 gap-4">
+          <input
+            name="name"
+            placeholder="Nama Menu"
+            className="border p-2 rounded"
+            required
+          />
+
+          <input
+            name="price"
+            type="number"
+            placeholder="Harga"
+            className="border p-2 rounded"
+            required
+          />
+
+          <input
+            name="category"
+            placeholder="Kategori"
+            className="border p-2 rounded"
+            required
+          />
+
+          <input
+            name="stock"
+            type="number"
+            placeholder="Stok"
+            className="border p-2 rounded"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="mt-4 bg-green-600 text-white px-4 py-2 rounded"
+        >
+          Simpan Menu
+        </button>
+      </form>
+
+      {/* TABEL MENU */}
+     <thead>
+  <tr>
+    <th className="border p-2">Nama</th>
+    <th className="border p-2">Harga</th>
+    <th className="border p-2">Kategori</th>
+    <th className="border p-2">Stok</th>
+    <th className="border p-2">Aksi</th>
+  </tr>
+</thead>
+
+      <tbody>
+  {menus.map((menu) => (
+    <tr key={menu.id}>
+      <td className="border p-2">{menu.name}</td>
+
+      <td className="border p-2">
+        Rp {menu.price}
+      </td>
+
+      <td className="border p-2">
+        {menu.category}
+      </td>
+
+      <td className="border p-2">
+        {menu.stock}
+      </td>
+
+      <td className="border p-2">
+        <a
+          href={`/admin/menu/${menu.id}`}
+          className="bg-yellow-500 text-white px-3 py-1 rounded"
+        >
+          Edit
+        </a>
+      </td>
+    </tr>
+  ))}
+</tbody>
+      </table>
+    </main>
+  );
+}

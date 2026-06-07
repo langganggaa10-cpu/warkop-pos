@@ -3,9 +3,6 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -23,4 +20,42 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.stat-card {
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: #E2E8F0 !important;
+}
+
+.order-card {
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+.order-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 30px -10px rgba(0,0,0,0.08) !important;
+  border-color: #E2E8F0 !important;
+}
+
+.payment-btn {
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.payment-btn:hover {
+  transform: scale(1.05);
+  background-color: #FFD54F !important;
+}
+
+.settings-card {
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.settings-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgba(0,0,0,0.1) !important;
+  border-color: #E2E8F0 !important;
 }
