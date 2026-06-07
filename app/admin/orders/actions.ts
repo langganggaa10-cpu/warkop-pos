@@ -5,7 +5,9 @@ import type { OrderStatus } from "@/types/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function updateOrderStatusAction(formData: FormData) {
+export async function updateOrderStatusAction(
+  formData: FormData
+): Promise<void> {
   const id = Number(formData.get("id"));
   const status = formData.get("status") as OrderStatus;
 
@@ -17,9 +19,9 @@ export async function updateOrderStatusAction(formData: FormData) {
 
     revalidatePath("/admin/orders");
     revalidatePath(`/admin/orders/${id}`);
-  } catch (error: any) {
+  } catch (error) {
     console.error("Update Status Error:", error);
-    return { error: "Gagal memperbarui status pesanan" };
+    throw new Error("Gagal memperbarui status pesanan");
   }
 
   redirect(`/admin/orders/${id}`);
