@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { OrderStatus } from "@prisma/client";
+import type { OrderStatus } from "@/types/prisma";
 import Link from "next/link";
 import { updateOrderStatusAction } from "@/app/admin/orders/actions";
 import { ChevronLeft, ClipboardList, Clock, MapPin, Package, CreditCard, RefreshCcw, CheckCircle2, XCircle, PlayCircle, Coffee, LogOut } from "lucide-react";

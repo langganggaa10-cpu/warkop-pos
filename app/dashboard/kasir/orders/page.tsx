@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { OrderStatus } from "@prisma/client";
+import type { OrderStatus } from "@/types/prisma";
 import { Search, Filter, ClipboardList, Eye, CreditCard, ChevronLeft, ChevronRight, Calendar, ShoppingBag, Coffee, LogOut } from "lucide-react";
 import { logoutAction } from "../../../auth/actions";
 

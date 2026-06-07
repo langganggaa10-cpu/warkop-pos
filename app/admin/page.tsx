@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { OrderStatus } from "@prisma/client";
+import type { OrderStatus } from "@/types/prisma";
 import { Search, Filter, CheckCircle2, Clock, PlayCircle, ClipboardList, TrendingUp, Users, DollarSign, Calendar } from "lucide-react";
 
 export const dynamic = "force-dynamic";

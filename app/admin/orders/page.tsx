@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { OrderStatus } from "@prisma/client";
+import type { OrderStatus } from "@/types/prisma";
 import { Search, Filter, ClipboardList, Eye, ChevronLeft, ChevronRight, Calendar, Users, ShoppingBag } from "lucide-react";
 
 export const dynamic = "force-dynamic";
