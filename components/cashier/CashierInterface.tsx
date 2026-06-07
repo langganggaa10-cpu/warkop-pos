@@ -33,7 +33,7 @@ export default function CashierInterface({ menus, tables, occupiedTableIds }: Ca
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const categories = useMemo(() => {
-    const cats = ["Semua", ...new Set(menus.map((m) => m.category))];
+    const cats = ["Semua", ...new Set(menus.map((m: any) => m.category))];
     return cats;
   }, [menus]);
 

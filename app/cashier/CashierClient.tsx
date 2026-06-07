@@ -152,7 +152,7 @@ export default function CashierClient({
                 </button>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {menus.map((menu) => (
+                {menus.map((menu: any) => (
                   <div key={menu.id} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col">
                     <div className="flex-1">
                       <div className="text-[10px] font-bold text-blue-500 uppercase tracking-tighter mb-1">{menu.category}</div>

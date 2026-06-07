@@ -194,7 +194,7 @@ export default async function MenuPage() {
                 </tr>
               </thead>
               <tbody>
-                {menus.map((menu) => {
+                {menus.map((menu: any) => {
                   const catColor = getCategoryColor(menu.category);
                   return (
                     <tr key={menu.id} style={{ borderBottom: '1px solid #F8FAFC' }}>
