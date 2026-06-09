@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import PrintReceipt from "@/components/print/PrintReceipt";
-import { CheckCircle2, Home, ClipboardList, Coffee } from "lucide-react";
+import { CheckCircle2, Home, ClipboardList } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -23,14 +23,14 @@ export default async function PaymentSuccessPage({ params }: SuccessPageProps) {
         },
       },
       payment: true,
-    },
+    } as any,
   });
 
-  if (!order || !order.payment) {
+  if (!order || !(order as any).payment) {
     return <div style={{ textAlign: 'center', padding: '100px' }}>Data pembayaran tidak ditemukan.</div>;
   }
 
-  const payment = order.payment;
+  const payment = (order as any).payment;
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#F9FAFB', fontFamily: 'Inter, sans-serif' }}>

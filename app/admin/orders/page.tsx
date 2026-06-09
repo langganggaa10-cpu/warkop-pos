@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import type { OrderStatus } from "@/types/prisma";
-import { Search, Filter, ClipboardList, Eye, ChevronLeft, ChevronRight, Calendar, Users, ShoppingBag } from "lucide-react";
+import { Search, ClipboardList, Eye, ShoppingBag, ChevronLeft, ChevronRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -48,7 +48,7 @@ export default async function OrdersPage({ searchParams }: OrdersPageProps) {
             menu: true,
           },
         },
-      },
+      } as any,
       orderBy: {
         createdAt: "desc",
       },
@@ -169,7 +169,7 @@ export default async function OrdersPage({ searchParams }: OrdersPageProps) {
           <tbody>
             {orders.map((order) => {
               const statusStyle = getStatusStyle(order.status);
-              const itemCount = order.orderitem.reduce((sum, item) => sum + item.quantity, 0);
+              const itemCount = (order as any).orderitem.reduce((sum: number, item: any) => sum + item.quantity, 0);
               return (
                 <tr key={order.id} style={{ borderBottom: '1px solid #F8FAFC' }}>
                   <td style={{ padding: '20px 32px' }}>
@@ -178,9 +178,9 @@ export default async function OrdersPage({ searchParams }: OrdersPageProps) {
                   <td style={{ padding: '20px 32px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <div style={{ width: '32px', height: '32px', backgroundColor: '#0F172A', color: '#FFFFFF', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 900 }}>
-                        {order.table.number}
+                        {(order as any).table.number}
                       </div>
-                      <span style={{ fontSize: '12px', fontWeight: 700, color: '#64748B' }}>Meja {order.table.number}</span>
+                      <span style={{ fontSize: '12px', fontWeight: 700, color: '#64748B' }}>Meja {(order as any).table.number}</span>
                     </div>
                   </td>
                   <td style={{ padding: '20px 32px', textAlign: 'center' }}>

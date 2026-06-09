@@ -3,13 +3,9 @@ import CashierInterface from "@/components/cashier/CashierInterface";
 import Link from "next/link";
 import { logoutAction } from "@/app/auth/actions";
 import { 
-  LayoutDashboard, 
-  LogOut, 
   Coffee, 
-  ClipboardList, 
-  Users, 
+  LogOut, 
   DollarSign, 
-  TrendingUp,
   Table as TableIcon,
   ShoppingBag,
   Clock
@@ -52,7 +48,7 @@ export default async function CashierPage() {
           menu: true,
         },
       },
-    },
+    } as any,
     orderBy: {
       createdAt: "desc",
     },
@@ -203,11 +199,11 @@ export default async function CashierPage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                     <div style={{ width: '52px', height: '52px', backgroundColor: '#0F172A', color: '#FFFFFF', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 900, boxShadow: '0 8px 16px -4px rgba(15, 23, 42, 0.2)' }}>
-                      {order.table.number}
+                      {(order as any).table.number}
                     </div>
                     <div>
                       <h4 style={{ margin: 0, fontSize: '16px', fontWeight: 900, color: '#0F172A' }}>Pesanan #{order.id}</h4>
-                      <p style={{ margin: 0, fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Meja {order.table.number} • {order.createdAt.toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })}</p>
+                      <p style={{ margin: 0, fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Meja {(order as any).table.number} • {order.createdAt.toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })}</p>
                     </div>
                   </div>
                   <div style={{ padding: '8px 16px', borderRadius: '12px', fontSize: '10px', fontWeight: 900, backgroundColor: '#FFF7ED', color: '#C2410C', border: '1px solid #FFEDD5', letterSpacing: '0.05em' }}>
@@ -216,7 +212,7 @@ export default async function CashierPage() {
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '0 4px' }}>
-                  {order.orderitem.slice(0, 3).map((item) => (
+                  {(order as any).orderitem.slice(0, 3).map((item: any) => (
                     <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <div style={{ width: '6px', height: '6px', backgroundColor: '#CBD5E1', borderRadius: '50%' }}></div>
@@ -225,8 +221,8 @@ export default async function CashierPage() {
                       <span style={{ fontSize: '14px', fontWeight: 900, color: '#0F172A' }}>x{item.quantity}</span>
                     </div>
                   ))}
-                  {order.orderitem.length > 3 && (
-                    <p style={{ margin: '4px 0 0 0', fontSize: '12px', fontWeight: 700, color: '#3B82F6', fontStyle: 'italic', backgroundColor: '#EFF6FF', padding: '6px 12px', borderRadius: '8px', width: 'fit-content' }}>+{order.orderitem.length - 3} item lainnya</p>
+                  {(order as any).orderitem.length > 3 && (
+                    <p style={{ margin: '4px 0 0 0', fontSize: '12px', fontWeight: 700, color: '#3B82F6', fontStyle: 'italic', backgroundColor: '#EFF6FF', padding: '6px 12px', borderRadius: '8px', width: 'fit-content' }}>+{(order as any).orderitem.length - 3} item lainnya</p>
                   )}
                 </div>
 

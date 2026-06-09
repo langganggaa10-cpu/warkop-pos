@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import type { OrderStatus } from "@/types/prisma";
-import { Search, Filter, CheckCircle2, Clock, PlayCircle, ClipboardList, TrendingUp, Users, DollarSign, Calendar } from "lucide-react";
+import { Search, TrendingUp, DollarSign, Calendar, ClipboardList } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +20,7 @@ export default async function AdminDashboard() {
           menu: true,
         },
       },
-    },
+    } as any,
     orderBy: {
       createdAt: "desc",
     },
@@ -211,12 +211,12 @@ export default async function AdminDashboard() {
                   fontWeight: 900,
                   boxShadow: '0 10px 20px -5px rgba(15, 23, 42, 0.3)'
                 }}>
-                  {order.table.number}
+                  {(order as any).table.number}
                 </div>
                 <div>
                   <h4 style={{ margin: 0, fontSize: '20px', fontWeight: 900, color: '#0F172A' }}>Pesanan #{order.id}</h4>
                   <p style={{ margin: '4px 0 0 0', fontSize: '12px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    Meja {order.table.number} • {order.createdAt.toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })}
+                    Meja {(order as any).table.number} • {order.createdAt.toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' })}
                   </p>
                 </div>
               </div>
@@ -228,15 +228,15 @@ export default async function AdminDashboard() {
                   <span style={{ fontSize: '10px', fontWeight: 800, color: '#94A3B8', textTransform: 'uppercase' }}>Qty</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {order.orderitem.slice(0, 3).map((item) => (
+                  {(order as any).orderitem.slice(0, 3).map((item: any) => (
                     <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <span style={{ fontSize: '14px', fontWeight: 700, color: '#334155' }}>{item.menu.name}</span>
                       <span style={{ fontSize: '14px', fontWeight: 800, color: '#0F172A' }}>x{item.quantity}</span>
                     </div>
                   ))}
-                  {order.orderitem.length > 3 && (
+                  {(order as any).orderitem.length > 3 && (
                     <p style={{ margin: '8px 0 0 0', fontSize: '12px', fontWeight: 700, color: '#94A3B8', textAlign: 'center', fontStyle: 'italic' }}>
-                      +{order.orderitem.length - 3} item lainnya
+                      +{(order as any).orderitem.length - 3} item lainnya
                     </p>
                   )}
                 </div>

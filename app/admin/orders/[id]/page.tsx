@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import type { OrderStatus } from "@/types/prisma";
 import Link from "next/link";
 import { updateOrderStatusAction } from "../actions";
-import { ChevronLeft, ClipboardList, Clock, MapPin, Package, CreditCard, RefreshCcw, CheckCircle2, XCircle, PlayCircle, Calendar } from "lucide-react";
+import { ChevronLeft, Clock, Package, CheckCircle2, XCircle, PlayCircle, Calendar, RefreshCcw } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +23,7 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
           menu: true,
         },
       },
-    },
+    } as any,
   });
 
   if (!order) {
@@ -56,8 +56,8 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
     }
   };
 
-  const statusStyle = getStatusStyle(order.status);
-  const totalItem = order.orderitem.reduce((sum, item) => sum + item.quantity, 0);
+  const statusStyle = getStatusStyle(order.status as OrderStatus);
+  const totalItem = (order as any).orderitem.reduce((sum: number, item: any) => sum + item.quantity, 0);
   const grandTotal = Number(order.total);
   const formattedDate = new Intl.DateTimeFormat("id-ID", {
     day: "2-digit",
@@ -115,9 +115,9 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
             <p style={{ margin: '0 0 8px 0', fontSize: '10px', fontWeight: 800, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Table Number</p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               <div style={{ width: '48px', height: '48px', backgroundColor: '#0F172A', color: '#FFFFFF', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: 900 }}>
-                {order.table.number}
+                {(order as any).table.number}
               </div>
-              <span style={{ fontSize: '24px', fontWeight: 900, color: '#0F172A' }}>Table {order.table.number}</span>
+              <span style={{ fontSize: '24px', fontWeight: 900, color: '#0F172A' }}>Table {(order as any).table.number}</span>
             </div>
           </div>
 
@@ -167,7 +167,7 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
                   </tr>
                 </thead>
                 <tbody>
-                  {order.orderitem.map((item) => (
+                  {(order as any).orderitem.map((item: any) => (
                     <tr key={item.id} style={{ borderBottom: '1px solid #F8FAFC' }}>
                       <td style={{ padding: '16px 32px', fontSize: '14px', fontWeight: 800, color: '#0F172A' }}>{item.menu.name}</td>
                       <td style={{ padding: '16px 32px', fontSize: '14px', fontWeight: 600, color: '#64748B' }}>Rp {Number(item.price).toLocaleString("id-ID")}</td>
