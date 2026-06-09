@@ -21,8 +21,8 @@ export async function saveOrder(tableId: number, items: OrderItemInput[], total:
         },
       });
 
-      // 2. Buat OrderItems
-      await tx.orderItem.createMany({
+      // 2. Buat OrderItems menggunakan model orderitem (lowercase)
+      await tx.orderitem.createMany({
         data: items.map((item) => ({
           orderId: order.id,
           menuId: item.menuId,

@@ -9,7 +9,7 @@ import { Table as TableIcon, Plus, Edit3, Users, AlertCircle } from "lucide-reac
 export const dynamic = "force-dynamic";
 
 export default async function TablePage() {
-  const tables = await prisma.$queryRaw`SELECT * FROM \`Table\` ORDER BY number ASC` as any[];
+  const tables = await prisma.table.findMany({ orderBy: { number: "asc" } });
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>

@@ -18,7 +18,7 @@ export default async function CashierPaymentPage({ params }: PaymentPageProps) {
     where: { id: orderId },
     include: {
       table: true,
-      items: {
+      orderitem: {
         include: {
           menu: true,
         },
@@ -65,7 +65,7 @@ export default async function CashierPaymentPage({ params }: PaymentPageProps) {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#15803D', fontWeight: 800, fontSize: '14px' }}><CreditCard size={18} /> BELUM DIBAYAR</div>
               </div>
               <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                {order.items.map(item => (
+                {order.orderitem.map(item => (
                   <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
                       <p style={{ margin: 0, fontWeight: 800, color: '#0F172A' }}>{item.menu.name}</p>

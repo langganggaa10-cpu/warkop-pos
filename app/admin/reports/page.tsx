@@ -39,7 +39,7 @@ export default async function ReportsPage() {
         payment: true 
       }
     }),
-    prisma.orderItem.groupBy({
+    prisma.orderitem.groupBy({
       by: ['menuId'],
       _sum: { quantity: true },
       orderBy: { 
@@ -51,7 +51,7 @@ export default async function ReportsPage() {
     }),
     prisma.menu.findMany({
       include: { 
-        orderItems: {
+        orderitem: {
           include: {
             order: true
           }
@@ -78,7 +78,7 @@ export default async function ReportsPage() {
   // Process Category Revenue
   const categoryRevenueMap: Record<string, number> = {};
   categoryStats.forEach(menu => {
-    const revenue = menu.orderItems.reduce((sum, item) => {
+    const revenue = menu.orderitem.reduce((sum, item) => {
       // Hanya hitung item dari pesanan yang sudah selesai
       if (item.order.status === 'COMPLETED') {
         return sum + (Number(item.price) * item.quantity);

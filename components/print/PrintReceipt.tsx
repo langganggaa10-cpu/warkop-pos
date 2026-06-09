@@ -78,7 +78,7 @@ export default function PrintReceipt({ order, payment }: PrintReceiptProps) {
         <div>Tgl: ${new Date(order.createdAt).toLocaleString("id-ID")}</div>
         <div className="line"></div>
 
-        {order.items.map((item: any) => (
+        {order.orderitem.map((item: any) => (
           <div key={item.id} style={{ marginBottom: '5px' }}>
             <div>${item.menu.name}</div>
             <div className="flex">

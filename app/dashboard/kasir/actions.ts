@@ -18,8 +18,11 @@ export async function processCheckout(
   try {
     // Gunakan transaksi untuk memastikan semua operasi berhasil atau gagal bersamaan
     await prisma.$transaction(async (tx) => {
-      // 0. Tandai meja sebagai terisi - Menggunakan query langsung jika model belum sinkron
-      await tx.$executeRaw`UPDATE \`Table\` SET isOccupied = 1 WHERE id = ${tableId}`;
+      // 0. Tandai meja sebagai terisi menggunakan Prisma Client API
+      await tx.table.update({
+        where: { id: tableId },
+        data: { isOccupied: true }
+      });
 
       // 1. Buat Order
       const order = await tx.order.create({
@@ -32,8 +35,8 @@ export async function processCheckout(
 
       // 2. Buat OrderItems dan Kurangi Stok
       for (const item of items) {
-        // Buat detail item pesanan
-        await tx.orderItem.create({
+        // Buat detail item pesanan menggunakan model orderitem (lowercase)
+        await tx.orderitem.create({
           data: {
             orderId: order.id,
             menuId: item.id,
@@ -73,7 +76,10 @@ export async function processCheckout(
 
 export async function clearTable(tableId: number) {
   try {
-    await prisma.$executeRaw`UPDATE \`Table\` SET isOccupied = 0 WHERE id = ${tableId}`;
+    await prisma.table.update({
+      where: { id: tableId },
+      data: { isOccupied: false }
+    });
     revalidatePath("/dashboard/kasir");
     revalidatePath("/admin/table");
     return { success: true };

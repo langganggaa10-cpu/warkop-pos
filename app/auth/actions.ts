@@ -19,24 +19,41 @@ export async function loginAction(formData: FormData) {
   }
 
   try {
-    // 1. Logika Pembuatan User Default (Jika Belum Ada)
+    // 1. Logika Pembuatan User Default (Jika Belum Ada) menggunakan Prisma Client API
     if (username === "admin") {
-      const existingAdmins: any[] = await prisma.$queryRawUnsafe(`SELECT * FROM User WHERE username = 'admin' LIMIT 1`);
-      if (existingAdmins.length === 0) {
+      const existingAdmin = await prisma.user.findFirst({
+        where: { username: "admin" }
+      });
+      if (!existingAdmin) {
         const hashedPassword = await bcrypt.hash("admin123", 10);
-        await prisma.$executeRawUnsafe(`INSERT INTO User (username, password, role) VALUES ('admin', '${hashedPassword}', 'ADMIN')`);
+        await prisma.user.create({
+          data: {
+            username: "admin",
+            password: hashedPassword,
+            role: "ADMIN"
+          }
+        });
       }
     } else if (username === "kasir") {
-      const existingKasirs: any[] = await prisma.$queryRawUnsafe(`SELECT * FROM User WHERE username = 'kasir' LIMIT 1`);
-      if (existingKasirs.length === 0) {
+      const existingKasir = await prisma.user.findFirst({
+        where: { username: "kasir" }
+      });
+      if (!existingKasir) {
         const hashedPassword = await bcrypt.hash("kasir123", 10);
-        await prisma.$executeRawUnsafe(`INSERT INTO User (username, password, role) VALUES ('kasir', '${hashedPassword}', 'CASHIER')`);
+        await prisma.user.create({
+          data: {
+            username: "kasir",
+            password: hashedPassword,
+            role: "CASHIER"
+          }
+        });
       }
     }
 
-    // 2. Proses Login Normal menggunakan Raw Query untuk menghindari masalah Stale Prisma Client
-    const users: any[] = await prisma.$queryRawUnsafe(`SELECT * FROM User WHERE username = ? LIMIT 1`, username);
-    const user = users[0];
+    // 2. Proses Login Normal menggunakan Prisma Client API yang type-safe
+    const user = await prisma.user.findUnique({
+      where: { username }
+    });
 
     if (!user) {
       return { error: `User '${username}' tidak ditemukan.` };
@@ -78,22 +95,6 @@ export async function loginAction(formData: FormData) {
   } catch (error: any) {
     if (error.digest?.includes("NEXT_REDIRECT")) throw error;
     console.error("Login Error Details:", error);
-    
-    // Fallback if table name is lowercase
-    if (error.message?.includes("User' doesn't exist")) {
-      try {
-        const users: any[] = await prisma.$queryRawUnsafe(`SELECT * FROM user WHERE username = ? LIMIT 1`, username);
-        const user = users[0];
-        if (user) {
-          const isPasswordValid = await bcrypt.compare(password, user.password);
-          if (isPasswordValid) {
-            // ... copy logic from above or just return error to retry
-            return { error: "Silakan coba login sekali lagi (sinkronisasi tabel)." };
-          }
-        }
-      } catch (e2) {}
-    }
-
     return { error: `Kesalahan: ${error.message || "Unknown error"}` };
   }
 }

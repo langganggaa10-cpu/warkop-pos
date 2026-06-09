@@ -35,7 +35,7 @@ export default async function CashierOrdersPage({ searchParams }: OrdersPageProp
   const [orders, totalCount] = await Promise.all([
     prisma.order.findMany({
       where,
-      include: { table: true, items: { include: { menu: true } } },
+      include: { table: true, orderitem: { include: { menu: true } } },
       orderBy: { createdAt: "desc" },
       skip,
       take: limit,

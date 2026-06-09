@@ -17,8 +17,12 @@ export default async function PaymentSuccessPage({ params }: SuccessPageProps) {
     where: { id: orderId },
     include: {
       table: true,
-      items: { include: { menu: true } },
-      payment: true
+      orderitem: {
+        include: {
+          menu: true,
+        },
+      },
+      payment: true,
     },
   });
 

@@ -18,7 +18,7 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
     where: { id: orderId },
     include: {
       table: true,
-      items: {
+      orderitem: {
         include: {
           menu: true,
         },
@@ -57,7 +57,7 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
   };
 
   const statusStyle = getStatusStyle(order.status);
-  const totalItem = order.items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalItem = order.orderitem.reduce((sum, item) => sum + item.quantity, 0);
   const grandTotal = Number(order.total);
   const formattedDate = new Intl.DateTimeFormat("id-ID", {
     day: "2-digit",
@@ -167,7 +167,7 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
                   </tr>
                 </thead>
                 <tbody>
-                  {order.items.map((item) => (
+                  {order.orderitem.map((item) => (
                     <tr key={item.id} style={{ borderBottom: '1px solid #F8FAFC' }}>
                       <td style={{ padding: '16px 32px', fontSize: '14px', fontWeight: 800, color: '#0F172A' }}>{item.menu.name}</td>
                       <td style={{ padding: '16px 32px', fontSize: '14px', fontWeight: 600, color: '#64748B' }}>Rp {Number(item.price).toLocaleString("id-ID")}</td>

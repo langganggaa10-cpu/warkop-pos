@@ -24,7 +24,7 @@ export default async function CashierPage() {
   // Ambil data statistik untuk dashboard kasir
   const [menus, tables, ordersToday, revenueToday, tablesActive] = await Promise.all([
     prisma.menu.findMany({ orderBy: { name: "asc" } }),
-    prisma.$queryRaw`SELECT * FROM \`Table\` ORDER BY number ASC` as Promise<any[]>,
+    prisma.table.findMany({ orderBy: { number: "asc" } }),
     prisma.order.count({
       where: { createdAt: { gte: startOfToday } }
     }),
@@ -47,7 +47,7 @@ export default async function CashierPage() {
     },
     include: {
       table: true,
-      items: {
+      orderitem: {
         include: {
           menu: true,
         },
@@ -216,7 +216,7 @@ export default async function CashierPage() {
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '0 4px' }}>
-                  {order.items.slice(0, 3).map((item) => (
+                  {order.orderitem.slice(0, 3).map((item) => (
                     <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <div style={{ width: '6px', height: '6px', backgroundColor: '#CBD5E1', borderRadius: '50%' }}></div>
@@ -225,8 +225,8 @@ export default async function CashierPage() {
                       <span style={{ fontSize: '14px', fontWeight: 900, color: '#0F172A' }}>x{item.quantity}</span>
                     </div>
                   ))}
-                  {order.items.length > 3 && (
-                    <p style={{ margin: '4px 0 0 0', fontSize: '12px', fontWeight: 700, color: '#3B82F6', fontStyle: 'italic', backgroundColor: '#EFF6FF', padding: '6px 12px', borderRadius: '8px', width: 'fit-content' }}>+{order.items.length - 3} item lainnya</p>
+                  {order.orderitem.length > 3 && (
+                    <p style={{ margin: '4px 0 0 0', fontSize: '12px', fontWeight: 700, color: '#3B82F6', fontStyle: 'italic', backgroundColor: '#EFF6FF', padding: '6px 12px', borderRadius: '8px', width: 'fit-content' }}>+{order.orderitem.length - 3} item lainnya</p>
                   )}
                 </div>
 

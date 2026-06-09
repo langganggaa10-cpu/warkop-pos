@@ -19,7 +19,7 @@ export default async function CashierOrderDetailPage({ params }: OrderDetailPage
     where: { id: orderId },
     include: {
       table: true,
-      items: {
+      orderitem: {
         include: {
           menu: true,
         },
@@ -50,7 +50,7 @@ export default async function CashierOrderDetailPage({ params }: OrderDetailPage
   };
 
   const style = getStatusStyle(order.status);
-  const totalItem = order.items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalItem = order.orderitem.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#F9FAFB', fontFamily: 'Inter, sans-serif' }}>
@@ -88,7 +88,7 @@ export default async function CashierOrderDetailPage({ params }: OrderDetailPage
             <div style={{ backgroundColor: '#FFFFFF', borderRadius: '32px', border: '1px solid #F1F5F9', overflow: 'hidden' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                 <thead><tr style={{ borderBottom: '1px solid #F1F5F9', backgroundColor: '#F8FAFC' }}><th style={{ padding: '20px 32px', fontSize: '11px', fontWeight: 800, color: '#94A3B8', textTransform: 'uppercase' }}>Menu</th><th style={{ padding: '20px 32px', fontSize: '11px', fontWeight: 800, color: '#94A3B8', textTransform: 'uppercase' }}>Harga</th><th style={{ padding: '20px 32px', fontSize: '11px', fontWeight: 800, color: '#94A3B8', textTransform: 'uppercase', textAlign: 'center' }}>Qty</th><th style={{ padding: '20px 32px', fontSize: '11px', fontWeight: 800, color: '#94A3B8', textTransform: 'uppercase', textAlign: 'right' }}>Subtotal</th></tr></thead>
-                <tbody>{order.items.map((item) => (<tr key={item.id} style={{ borderBottom: '1px solid #F8FAFC' }}><td style={{ padding: '16px 32px', fontWeight: 800, color: '#0F172A' }}>{item.menu.name}</td><td style={{ padding: '16px 32px', color: '#64748B', fontWeight: 600 }}>Rp {Number(item.price).toLocaleString("id-ID")}</td><td style={{ padding: '16px 32px', textAlign: 'center', fontWeight: 900 }}>{item.quantity}</td><td style={{ padding: '16px 32px', textAlign: 'right', fontWeight: 900, color: '#0F172A' }}>Rp {(Number(item.price) * item.quantity).toLocaleString("id-ID")}</td></tr>))}</tbody>
+                <tbody>{order.orderitem.map((item) => (<tr key={item.id} style={{ borderBottom: '1px solid #F8FAFC' }}><td style={{ padding: '16px 32px', fontWeight: 800, color: '#0F172A' }}>{item.menu.name}</td><td style={{ padding: '16px 32px', color: '#64748B', fontWeight: 600 }}>Rp {Number(item.price).toLocaleString("id-ID")}</td><td style={{ padding: '16px 32px', textAlign: 'center', fontWeight: 900 }}>{item.quantity}</td><td style={{ padding: '16px 32px', textAlign: 'right', fontWeight: 900, color: '#0F172A' }}>Rp {(Number(item.price) * item.quantity).toLocaleString("id-ID")}</td></tr>))}</tbody>
               </table>
               <div style={{ padding: '32px', backgroundColor: '#0F172A', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div><p style={{ margin: 0, fontSize: '11px', color: '#94A3B8', fontWeight: 800, textTransform: 'uppercase' }}>Total Item</p><span style={{ color: '#FFFFFF', fontSize: '20px', fontWeight: 900 }}>{totalItem} Produk</span></div>

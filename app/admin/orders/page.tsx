@@ -43,7 +43,7 @@ export default async function OrdersPage({ searchParams }: OrdersPageProps) {
       where,
       include: {
         table: true,
-        items: {
+        orderitem: {
           include: {
             menu: true,
           },
@@ -169,7 +169,7 @@ export default async function OrdersPage({ searchParams }: OrdersPageProps) {
           <tbody>
             {orders.map((order) => {
               const statusStyle = getStatusStyle(order.status);
-              const itemCount = order.items.reduce((sum, item) => sum + item.quantity, 0);
+              const itemCount = order.orderitem.reduce((sum, item) => sum + item.quantity, 0);
               return (
                 <tr key={order.id} style={{ borderBottom: '1px solid #F8FAFC' }}>
                   <td style={{ padding: '20px 32px' }}>

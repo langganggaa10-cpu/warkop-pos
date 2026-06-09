@@ -19,7 +19,10 @@ export async function createTable(formData: FormData) {
 }
 
 export async function clearTableStatus(id: number) {
-  await prisma.$executeRaw`UPDATE \`Table\` SET isOccupied = 0 WHERE id = ${id}`;
+  await prisma.table.update({
+    where: { id },
+    data: { isOccupied: false }
+  });
   revalidatePath("/admin/table");
   revalidatePath("/dashboard/kasir");
 }

@@ -16,7 +16,7 @@ export default async function PaymentPage({ params }: PaymentPageProps) {
     where: { id: orderId },
     include: {
       table: true,
-      items: {
+      orderitem: {
         include: {
           menu: true,
         },
@@ -35,7 +35,7 @@ export default async function PaymentPage({ params }: PaymentPageProps) {
     );
   }
 
-  const totalItem = order.items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalItem = order.orderitem.reduce((sum, item) => sum + item.quantity, 0);
   const grandTotal = Number(order.total);
   const formattedDate = new Intl.DateTimeFormat("id-ID", {
     day: "2-digit",
@@ -112,7 +112,7 @@ export default async function PaymentPage({ params }: PaymentPageProps) {
                 </tr>
               </thead>
               <tbody>
-                {order.items.map((item) => (
+                {order.orderitem.map((item) => (
                   <tr key={item.id} style={{ borderBottom: '1px solid #F8FAFC' }}>
                     <td style={{ padding: '24px 40px' }}>
                       <span style={{ fontSize: '16px', fontWeight: 900, color: '#0F172A' }}>{item.menu.name}</span>

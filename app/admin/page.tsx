@@ -15,7 +15,7 @@ export default async function AdminDashboard() {
     },
     include: {
       table: true,
-      items: {
+      orderitem: {
         include: {
           menu: true,
         },
@@ -228,15 +228,15 @@ export default async function AdminDashboard() {
                   <span style={{ fontSize: '10px', fontWeight: 800, color: '#94A3B8', textTransform: 'uppercase' }}>Qty</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {order.items.slice(0, 3).map((item) => (
+                  {order.orderitem.slice(0, 3).map((item) => (
                     <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <span style={{ fontSize: '14px', fontWeight: 700, color: '#334155' }}>{item.menu.name}</span>
                       <span style={{ fontSize: '14px', fontWeight: 800, color: '#0F172A' }}>x{item.quantity}</span>
                     </div>
                   ))}
-                  {order.items.length > 3 && (
+                  {order.orderitem.length > 3 && (
                     <p style={{ margin: '8px 0 0 0', fontSize: '12px', fontWeight: 700, color: '#94A3B8', textAlign: 'center', fontStyle: 'italic' }}>
-                      +{order.items.length - 3} item lainnya
+                      +{order.orderitem.length - 3} item lainnya
                     </p>
                   )}
                 </div>
